@@ -5,17 +5,16 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 
-
-app = Flask(__name__)
-
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-MONGODB_URI= os.environ.get("MONGODB_URI")
-DB_NAME = os.environ.get("DB_NAME")
+MONGODB_URI= os.environ.get("mongodb+srv://test:sparta@cluster0.idruwy2.mongodb.net/?retryWrites=true&w=majority")
+DB_NAME = os.environ.get("dbsparta")
 
-client = MongoClient (MONGODB_URI)
-db = client [DB_NAME]
+client = MongoClient ("mongodb+srv://test:sparta@cluster0.idruwy2.mongodb.net/?retryWrites=true&w=majority")
+db = client.dbsparta
+
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -31,9 +30,7 @@ def web_mars_post():
         'address' : address_receive,
         'size' : size_receive
     }
-
     db.orders.insert_one(doc)
-    
     return jsonify({'msg': 'complete!'})
 
 @app.route("/mars", methods=["GET"])
